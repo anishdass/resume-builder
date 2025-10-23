@@ -37,6 +37,19 @@ const Dashboard = () => {
     navigate(`/app/builder/res123`);
   };
 
+  const editResume = async (e) => {
+    e.preventDefault();
+  };
+
+  const deleteResume = async (resumeId) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this resume?"
+    );
+    if (confirm) {
+      setAllResumes((prev) => prev.filter((resume) => resume._id !== resumeId));
+    }
+  };
+
   useEffect(() => {
     loadAllResumes();
   }, []);
@@ -72,6 +85,7 @@ const Dashboard = () => {
             const baseColor = colors[index % colors.length];
             return (
               <button
+                onClick={() => navigate(`/app/builder/${resume._id}`)}
                 key={index}
                 className=' relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg transition-all duration-300 cursor-pointer'
                 style={{
@@ -94,9 +108,22 @@ const Dashboard = () => {
                 </p>
 
                 {/* Delete and edit icon on top right side */}
-                <div className=' absolute top-1 right-1 group-hover:flex items-center hidden'>
-                  <PencilIcon className=' size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors' />
-                  <TrashIcon className=' size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors' />
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className=' absolute top-1 right-1 group-hover:flex items-center hidden'>
+                  <PencilIcon
+                    onClick={() => {
+                      setEditResumeId(resume._id);
+                      setTitle(resume.title);
+                    }}
+                    className=' size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors'
+                  />
+                  <TrashIcon
+                    onClick={() => {
+                      deleteResume(resume._id);
+                    }}
+                    className=' size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors'
+                  />
                 </div>
               </button>
             );
@@ -182,6 +209,35 @@ const Dashboard = () => {
                 className=' absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors'
                 onClick={() => {
                   setShowUploadResume(false);
+                  setTitle("");
+                }}
+              />
+            </div>
+          </form>
+        )}
+
+        {editResumeId && (
+          <form
+            onSubmit={editResume}
+            onClick={() => setEditResumeId(false)}
+            className=' fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
+            <div
+              className=' relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'
+              onClick={(e) => e.stopPropagation()}>
+              <h2 className=' text-xl font-bold mb-4'>Edit Resume Title</h2>
+              <input
+                type='text'
+                placeholder='Enter Resume title'
+                className=' w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600'
+                required
+              />
+              <button className=' w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
+                Update
+              </button>
+              <XIcon
+                className=' absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors'
+                onClick={() => {
+                  setEditResumeId("");
                   setTitle("");
                 }}
               />
