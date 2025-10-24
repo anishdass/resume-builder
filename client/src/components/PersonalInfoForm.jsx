@@ -103,11 +103,12 @@ const PersonalInfoForm = ({
       </div>
 
       {fields.map((field) => {
+        console.log(fields);
         const icon = field.icon;
         return (
           <div key={field.key} className=' space-y-1 mt-5'>
             <label className=' flex items-center gap-2 text-sm font-medium text-gray-600'>
-              <Icon className=' size-4' />
+              <icon className=' size-4' />
               {field.label}
               {field.required && <span className=' text-red-500'>*</span>}
             </label>
