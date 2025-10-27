@@ -28,21 +28,21 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
     },
   ];
   return (
-    <div className=' relative'>
+    <div className=' relative py-2'>
       <button
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        className=' flex items-center gap-1 text-sm text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all'>
-        <Layout size={14} /> <span className=' max-sm:hidden'>Template</span>
+        onClick={() => setIsOpen(!isOpen)}
+        className='flex items-center gap-2 px-3 py-1.5 rounded-md text-sm text-blue-600 bg-gradient-to-br from-blue-50 to-blue-100 ring-1 ring-transparent hover:ring-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all '>
+        <Layout size={14} />
+        <span className='max-sm:hidden'>Template</span>
       </button>
+
       {isOpen && (
         <div className=' absolute top-full w-xs p-3 mt-2 space-y-3 z-10 bg-white rounded-md border border-gray-200 shadow-sm'>
           {templates.map((template) => (
             <div
               key={template.id}
               onClick={() => {
-                onchange(template.id);
+                onChange(template.id);
                 setIsOpen(false);
               }}
               className={`relative p-3 border rounded-md cursor-pointer transition-all ${
