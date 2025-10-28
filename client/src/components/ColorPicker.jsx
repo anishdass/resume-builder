@@ -32,6 +32,7 @@ const ColorPicker = ({ selectedColor, onChange }) => {
               className=' relative cursor-pointer group flex flex-col'
               onClick={() => {
                 onChange(color.value);
+                setIsOpen(false);
               }}>
               <div
                 className=' w-12 h-12 rounded-full border-2 border-transparent group-hover:border-black/25 transition-colors'
