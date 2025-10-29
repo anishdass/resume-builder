@@ -1,3 +1,4 @@
+import { Plus, XIcon } from "lucide-react";
 import React from "react";
 
 const Test = () => {

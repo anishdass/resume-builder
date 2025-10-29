@@ -2,7 +2,6 @@ import { GraduationCap, Plus, Trash2 } from "lucide-react";
 import React from "react";
 
 const ProjectForm = ({ data, onChange }) => {
-  console.log(data);
   const addProject = () => {
     const newProject = {
       name: "",
@@ -58,7 +57,7 @@ const ProjectForm = ({ data, onChange }) => {
             </div>
 
             {/* Update project */}
-            <div className=' grid md:grid-cols-2 gap-3'>
+            <div className=' grid gap-3'>
               <input
                 type='text'
                 placeholder='Project Name'
