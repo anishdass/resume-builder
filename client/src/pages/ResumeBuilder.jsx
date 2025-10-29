@@ -53,7 +53,6 @@ const ResumeBuilder = () => {
   // Load resume data based on the URL param
   const loadExistingResume = async () => {
     const resume = dummyResumeData.find((resume) => resume._id === resumeId);
-    console.log(dummyResumeData);
     if (resume) {
       setResumeData(resume);
       document.title = resume.title;

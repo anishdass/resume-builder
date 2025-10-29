@@ -103,7 +103,6 @@ const PersonalInfoForm = ({
       </div>
 
       {fields.map((field) => {
-        console.log(fields);
         const icon = field.icon;
         return (
           <div key={field.key} className=' space-y-1 mt-5'>
