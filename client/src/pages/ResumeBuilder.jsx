@@ -102,10 +102,10 @@ const ResumeBuilder = () => {
       </div>
 
       {/* Main Content */}
-      <div className='max-w-7xl mx-auto px-4 pb-8'>
-        <div className='grid lg:grid-cols-2 gap-8'>
+      <div className=' max-w-7xl mx-auto px-4 pb-8'>
+        <div className=' grid lg:grid-cols-[1fr_1.5fr] gap-8 items-start'>
           {/* LEFT PANEL — Form */}
-          <div className='relative bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1'>
+          <div className='relative bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1 h-auto '>
             {/* Progress bar background */}
             <hr className='absolute top-0 left-0 right-0 border-2 border-gray-200' />
 
@@ -254,7 +254,7 @@ const ResumeBuilder = () => {
           </div>
 
           {/* RIGHT PANEL — Resume Preview */}
-          <div className=' lg:col-span-7 max-lg:mt-6'>
+          <div className=' max-lg:mt-6'>
             {/* Buttons Panel */}
             <div className=' relative w-full'>
               <div className=' absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2'>
