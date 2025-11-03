@@ -1,7 +1,7 @@
 // Controller for creating a new resume
 
-import imagekit from "../configs/imageKit";
-import Resume from "../models/Resume";
+import imagekit from "../configs/imageKit.js";
+import Resume from "../models/Resume.js";
 import fs, { createReadStream } from "fs";
 
 // POST: /api/resumes/create

@@ -4,7 +4,7 @@ import {
   getUserResumes,
   loginUser,
   registerUser,
-} from "../controllers/UserController.js";
+} from "../controllers/userController.js";
 import protect from "../middlewares/authMiddleware.js";
 
 // Initiate userRouter
