@@ -1,10 +1,8 @@
+import ai from "../configs/Ai.js";
+import Resume from "../models/Resume.js";
+
 // Controller for enhancing resume's professional summary
 // POST: /api/ai/enhance-pro-summary
-
-import Resume from "../models/Resume";
-
-// Controller for enhancing a resume's Professional summary
-// POST: /api/ai/enhance-professional-summary
 export const enhanceProSummary = async (req, res) => {
   try {
     // Get content from the request
@@ -14,8 +12,8 @@ export const enhanceProSummary = async (req, res) => {
     if (!userContent) {
       return res.status(404).json({ message: "Required fields missing" });
     }
-    // Get the response from openai documentation
-    const response = await openai.chat.completions.create({
+    // Get the response from documentation
+    const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
         {
@@ -49,7 +47,7 @@ export const enhanceJobDesc = async (req, res) => {
       return res.status(404).json({ message: "Missing Required fields" });
     }
 
-    const response = await openai.chat.completions.create({
+    const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
         {
@@ -73,7 +71,6 @@ export const enhanceJobDesc = async (req, res) => {
 
 // Controller for uploading a resume
 // POST: /api/ai/upload-resume
-
 export const uploadResume = async (req, res) => {
   try {
     const { resumeText, title } = req.body;
@@ -132,7 +129,7 @@ export const uploadResume = async (req, res) => {
 
     `;
 
-    const response = await openai.chat.completions.create({
+    const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
         {
