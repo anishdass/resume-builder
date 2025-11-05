@@ -10,8 +10,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { dummyResumeData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { api } from "../configs/api";
 
 const Dashboard = () => {
+  const { user, token } = useSelector((state) => state.auth);
+  console.log(token);
+
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
   const [allResumes, setAllResumes] = useState([]);
   const [showCreateResume, setShowCreateResume] = useState(false);
@@ -27,14 +32,21 @@ const Dashboard = () => {
 
   const createResume = async (e) => {
     e.preventDefault();
-    setShowCreateResume(false);
-    navigate(`/app/builder/res123`);
+    const { data } = await api.post(
+      "/api/resumes/create",
+      { title },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    setAllResumes(...allResumes, data);
+    setTitle("");
+    setShowUploadResume(false);
+    navigate(`/app/builder/${data.resume._id}`);
   };
 
   const uploadResume = async (e) => {
     e.preventDefault();
-    setShowUploadResume(false);
-    navigate(`/app/builder/res123`);
   };
 
   const editResume = async (e) => {

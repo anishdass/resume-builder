@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 const protect = async (req, res, next) => {
   const token = req.headers.authorization;
 
@@ -5,6 +7,7 @@ const protect = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
   try {
     //   Decode the token
     const decode = jwt.verify(token, process.env.JWT_SECRET);
@@ -14,7 +17,7 @@ const protect = async (req, res, next) => {
     next();
   } catch (error) {
     // Return unauthorized message
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: error.message });
   }
 };
 
