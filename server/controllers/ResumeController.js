@@ -10,6 +10,7 @@ export const createResume = async (req, res) => {
     // Get user id from the request, and title from body
     const userId = req.userId;
     const { title } = req.body;
+    console.log(req.body);
 
     // Create new Resume
     const newResume = await Resume.create({ userId, title });

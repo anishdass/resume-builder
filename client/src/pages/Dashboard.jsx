@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { dummyResumeData } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { api } from "../configs/api";
 
 const Dashboard = () => {
@@ -32,6 +32,7 @@ const Dashboard = () => {
 
   const createResume = async (e) => {
     e.preventDefault();
+
     const { data } = await api.post(
       "/api/resumes/create",
       { title },
@@ -154,6 +155,7 @@ const Dashboard = () => {
               <input
                 type='text'
                 placeholder='Enter Resume title'
+                onChange={(e) => setTitle(e.target.value)}
                 className=' w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600'
                 required
               />
