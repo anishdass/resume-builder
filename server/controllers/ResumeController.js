@@ -30,7 +30,7 @@ export const createResume = async (req, res) => {
 export const updateResume = async (req, res) => {
   try {
     const userId = req.userId;
-    const { resumeId, resumeData, removeBackground } = req.params;
+    const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
     let resumeDataCopy = JSON.parse(resumeData);
 

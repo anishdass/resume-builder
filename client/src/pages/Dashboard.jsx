@@ -76,8 +76,27 @@ const Dashboard = () => {
     setIsLoading(false);
   };
 
-  const editResume = async (e) => {
-    e.preventDefault();
+  const editTitle = async (e) => {
+    try {
+      e.preventDefault();
+      const { data } = await api.put(
+        "/api/resumes/update",
+        { resumeId: editResumeId, resumeData: { title } },
+        {
+          headers: { Authorization: token },
+        }
+      );
+      setAllResumes(
+        allResumes.map((resume) =>
+          resume._id === editResumeId ? { ...resume, title } : resume
+        )
+      );
+      setTitle("");
+      setEditResumeId("");
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
   };
 
   const deleteResume = async (resumeId) => {
@@ -269,7 +288,7 @@ const Dashboard = () => {
 
         {editResumeId && (
           <form
-            onSubmit={editResume}
+            onSubmit={editTitle}
             onClick={() => setEditResumeId(false)}
             className=' fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
             <div
