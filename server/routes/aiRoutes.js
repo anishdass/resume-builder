@@ -10,6 +10,6 @@ const aiRouter = express.Router();
 
 aiRouter.post("/enhance-pro-summary", protect, enhanceProSummary);
 aiRouter.post("/enhance-job-desc", protect, enhanceJobDesc);
-aiRouter.post("/enhance-upload-resume", protect, uploadResume);
+aiRouter.post("/upload-resume", protect, uploadResume);
 
 export default aiRouter;
