@@ -14,6 +14,6 @@ const userRouter = express.Router();
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/data", protect, getUserById);
-userRouter.post("/resumes", protect, getUserResumes);
+userRouter.get("/resumes", protect, getUserResumes);
 
 export default userRouter;
