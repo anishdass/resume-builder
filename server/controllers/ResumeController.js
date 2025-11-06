@@ -80,7 +80,7 @@ export const deleteResume = async (req, res) => {
     return res.status(200).json({ message: "Resume deleted successfully" });
   } catch (error) {
     // Error message on catch block
-    return res.status(200).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
