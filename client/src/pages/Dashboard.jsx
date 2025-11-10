@@ -299,6 +299,8 @@ const Dashboard = () => {
                 type='text'
                 placeholder='Enter Resume title'
                 className=' w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
               <button className=' w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
