@@ -96,7 +96,7 @@ export const getResumeById = async (req, res) => {
     const resume = await Resume.findOne({ userId, _id: resumeId });
 
     if (!resume) {
-      return res.status(200).json({ message: "Resume unavailable" });
+      return res.status(404).json({ message: "Resume unavailable" });
     }
 
     // Return success message and the resume
@@ -104,10 +104,10 @@ export const getResumeById = async (req, res) => {
     resume.createdAt = undefined;
     resume.updatedAt = undefined;
 
-    return res.status(404).json({ resume });
+    return res.status(200).json({ resume });
   } catch (error) {
     // Error message on catch block
-    return res.status(200).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
