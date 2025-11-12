@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function Hero() {
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
 
   const [menuOpen, setMenuOpen] = React.useState(false);
 
