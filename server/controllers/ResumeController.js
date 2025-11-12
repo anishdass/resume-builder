@@ -32,6 +32,9 @@ export const updateResume = async (req, res) => {
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
 
+    console.log(resumeId);
+    console.log(resumeData);
+
     let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
 
     if (image) {
@@ -51,13 +54,17 @@ export const updateResume = async (req, res) => {
       resumeDataCopy.personal_info.image = response.url;
     }
 
+    console.log(JSON.parse(resumeDataCopy));
+
     const resume = await Resume.findOneAndUpdate(
       { userId, _id: resumeId },
-      resumeDataCopy,
+      JSON.parse(resumeDataCopy),
       {
         new: true,
       }
     );
+
+    console.log(resume);
 
     return res.status(200).json({ message: "Saved Successfully", resume });
   } catch (error) {

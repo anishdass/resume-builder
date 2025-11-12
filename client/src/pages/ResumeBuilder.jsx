@@ -126,12 +126,9 @@ const ResumeBuilder = () => {
       typeof resumeData.personal_info.image === "object" &&
         formData.append("image", resumeData.personal_info.image);
 
-      const { data } = await api.put(
-        "/api/resumes/update",
-        { formData },
-        { headers: { Authorization: token } }
-      );
-      console.log(data);
+      const { data } = await api.put("/api/resumes/update", formData, {
+        headers: { Authorization: token },
+      });
 
       setResumeData(data.resume);
       toast.success(data.message);
