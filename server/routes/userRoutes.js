@@ -13,7 +13,7 @@ const userRouter = express.Router();
 // define different path for userAPIs
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
-userRouter.post("/data", protect, getUserById);
+userRouter.get("/data", protect, getUserById);
 userRouter.get("/resumes", protect, getUserResumes);
 
 export default userRouter;

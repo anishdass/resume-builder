@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const { user, token } = useSelector((state) => state.auth);
-  console.log(token);
+  // console.log(token);
 
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
   const [allResumes, setAllResumes] = useState([]);
@@ -66,6 +66,7 @@ const Dashboard = () => {
         { resumeText, title },
         { headers: { Authorization: token } }
       );
+      console.log(data);
       setTitle("");
       setResume(null);
       setShowUploadResume(false);
@@ -170,7 +171,7 @@ const Dashboard = () => {
                 <p
                   className=' absolute bottom-1 text-[11px] text-slate-400 group-hover:text-slate-500 transition-all duration-300 px-2 text-center'
                   style={{ color: baseColor + "90" }}>
-                  Updated on {new Date(resume.updateAt).toLocaleDateString()}
+                  Updated on {new Date(resume.updatedAt).toLocaleDateString()}
                 </p>
 
                 {/* Delete and edit icon on top right side */}
@@ -269,7 +270,10 @@ const Dashboard = () => {
                   }}
                 />
               </div>
-              <button className=' flex items-center justify-center gap-2 w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>
+              <button
+                className={`flex items-center justify-center gap-2 w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}>
                 {isLoading && (
                   <LoaderCircleIcon className=' animate-spin size-4 text-white' />
                 )}
