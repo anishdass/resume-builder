@@ -1,8 +1,8 @@
-// Controller for creating a new resume
-import imagekit from "../configs/imageKit.js";
+import client from "../configs/imageKit.js";
 import Resume from "../models/Resume.js";
-import fs, { createReadStream } from "fs";
+import fs from "fs";
 
+// Controller for creating a new resume
 // POST: /api/resumes/create
 export const createResume = async (req, res) => {
   try {
@@ -32,39 +32,43 @@ export const updateResume = async (req, res) => {
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    console.log(resumeId);
-    console.log(resumeData);
-
-    let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
-
-    if (image) {
-      const imageBufferData = fs.createReadStream(image.path);
-
-      const response = await imagekit.files.upload({
-        file: fs.createReadStream(imageBufferData),
-        fileName: "resume.png",
-        folder: "user-resumes",
-        transformation: {
-          pre:
-            "w-300, h-300, fo-face, z-0.75" +
-            (removeBackground ? ",e-bgremove" : ""),
-        },
-      });
-
-      resumeDataCopy.personal_info.image = response.url;
+    let resumeDataCopy;
+    if (typeof resumeData === "string") {
+      resumeDataCopy = await JSON.parse(resumeData);
+    } else {
+      resumeDataCopy = structuredClone(resumeData);
     }
 
-    console.log(JSON.parse(resumeDataCopy));
+    if (image) {
+      const response = await client.files.upload({
+        file: fs.createReadStream(image.path),
+        fileName: "resume.png",
+        folder: "user-resumes",
+      });
+
+      const transformedUrl = client.helper.buildSrc({
+        src: response.url,
+        transformation: [
+          {
+            width: 300,
+            height: 300,
+            focus: "face",
+            zoom: 0.75,
+            effect: removeBackground ? "bgremove" : "",
+          },
+        ],
+      });
+
+      resumeDataCopy.personal_info.image = transformedUrl;
+    }
 
     const resume = await Resume.findOneAndUpdate(
       { userId, _id: resumeId },
-      JSON.parse(resumeDataCopy),
+      resumeDataCopy,
       {
         new: true,
       }
     );
-
-    console.log(resume);
 
     return res.status(200).json({ message: "Saved Successfully", resume });
   } catch (error) {
