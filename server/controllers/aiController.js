@@ -7,6 +7,8 @@ export const enhanceProSummary = async (req, res) => {
   try {
     // Get content from the request
     const { userContent } = req.body;
+    console.log(userContent);
+
     // if user content is not present return status 400 and the message would be missing required field
 
     if (!userContent) {
