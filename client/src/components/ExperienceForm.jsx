@@ -1,5 +1,7 @@
-import { Briefcase, Plus, Sparkles, Trash2 } from "lucide-react";
-import React from "react";
+import { Briefcase, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { api } from "../configs/api";
 
 const ExperienceForm = ({ data, onChange }) => {
   const addExperience = () => {
@@ -25,10 +27,33 @@ const ExperienceForm = ({ data, onChange }) => {
     onChange(updatedExperience);
   };
 
+  const { token } = useSelector((state) => state.auth);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const enhanceJobDescription = async (data) => {
+    console.log(data);
+
+    // const prompt = `Enhance my job description ${data}`;
+    // try {
+    //   setIsGenerating(true);
+
+    //   const { data } = await api.post(
+    //     "/api/ai/enhance-job-desc",
+    //     { userContent: prompt },
+    //     { headers: { Authorization: token } }
+    //   );
+
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error?.response?.data?.message || error.message);
+    // } finally {
+    //   setIsGenerating(false);
+    // }
+  };
+
   return (
     <div className=' space-y-6'>
       <div className=' flex items-center justify-between'>
-        {/* Left Side */}
         <div>
           <h3 className=' flex items-center gap-2 text-lg font-semibold text-gray-900'>
             Professional Experience
@@ -36,7 +61,6 @@ const ExperienceForm = ({ data, onChange }) => {
           <p className=' text-sm text-gray-500'>Add your job experience</p>
         </div>
 
-        {/* Right Side */}
         <button
           onClick={addExperience}
           className=' flex items-center gap-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors'>
@@ -128,9 +152,16 @@ const ExperienceForm = ({ data, onChange }) => {
                     htmlFor=''>
                     Job Description
                   </label>
-                  <button className=' flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
-                    <Sparkles className=' w-3 h-3' />
-                    Enhance with AI
+                  <button
+                    disabled={isGenerating}
+                    onClick={(e) => enhanceJobDescription(e.target.value)}
+                    className=' flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
+                    {isGenerating ? (
+                      <Loader2 className=' size-4 animate-spin' />
+                    ) : (
+                      <Sparkles className=' w-3 h-3' />
+                    )}
+                    {isGenerating ? "Generating..." : "Enhance with AI"}
                   </button>
                 </div>
                 <textarea

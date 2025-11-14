@@ -44,6 +44,7 @@ export const enhanceProSummary = async (req, res) => {
 export const enhanceJobDesc = async (req, res) => {
   try {
     const { userContent } = req.body;
+    console.log(userContent);
 
     if (!userContent) {
       return res.status(404).json({ message: "Missing Required fields" });

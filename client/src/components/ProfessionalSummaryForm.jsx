@@ -8,9 +8,13 @@ const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
   const { token } = useSelector((state) => state.auth);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const prompt = `Enhance my professional summary ${data}`;
-
   const enhanceProfessionalSummary = async () => {
+    if (!data) {
+      return toast.error("Data required for enhancing");
+    }
+
+    const prompt = `Enhance my professional summary ${data}`;
+
     try {
       setIsGenerating(true);
       const { data } = await api.post(
@@ -18,8 +22,6 @@ const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
         { userContent: prompt },
         { headers: { Authorization: token } }
       );
-
-      console.log(data.enhancedContent.content);
 
       setResumeData((prev) => ({
         ...prev,
