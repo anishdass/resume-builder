@@ -40,23 +40,23 @@ export const enhanceProSummary = async (req, res) => {
 };
 
 // Controller for enhancing a resume's job description
-// POST: /api/ai/enhance-job-description
+// POST: /api/ai/enhance-job-desc
 export const enhanceJobDesc = async (req, res) => {
   try {
     const { userContent } = req.body;
-    console.log(userContent);
 
     if (!userContent) {
-      return res.status(404).json({ message: "Missing Required fields" });
+      return res.status(400).json({ message: "Required fields missing" });
     }
 
+    // Send request to OpenAI to enhance job description
     const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
       messages: [
         {
           role: "system",
           content:
-            "You are an expert in resume writing. Your task is to enhance the job description of a resume. The job description should be only in 1-2 sentences also highlighting key responsibilities and achievements. Use action verbs and quantifiable results where possible. Make it ATS friendly and only return text no options or anything else.",
+            "You are an expert in resume writing. Your task is to enhance the job description for a resume. Keep it concise (1-2 sentences), focusing on key responsibilities and achievements, using action verbs and quantifiable outcomes. Make it ATS friendly. Return only the enhanced description text, nothing else.",
         },
         {
           role: "user",
@@ -66,14 +66,47 @@ export const enhanceJobDesc = async (req, res) => {
     });
 
     const enhancedContent = response.choices[0].message;
+
     return res.status(200).json({ enhancedContent });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
+// export const enhanceJobDesc = async (req, res) => {
+//   try {
+//     const { userContent } = req.body;
+
+//     if (!userContent) {
+//       return res.status(404).json({ message: "Missing Required fields" });
+//     }
+
+//     const response = await ai.chat.completions.create({
+//       model: process.env.OPENAI_MODEL,
+//       messages: [
+//         {
+//           role: "system",
+//           content:
+//             "You are an expert in resume writing. Your task is to enhance the job description of a resume. The job description should be only in 1-2 sentences also highlighting key responsibilities and achievements. Use action verbs and quantifiable results where possible. Make it ATS friendly and only return text no options or anything else.",
+//         },
+//         {
+//           role: "user",
+//           content: userContent,
+//         },
+//       ],
+//     });
+
+//     const enhancedContent = response.choices[0].message;
+
+//     return res.status(200).json({ enhancedContent });
+//   } catch (error) {
+//     return res.status(400).json({ message: error.message });
+//   }
+// };
+
 // Controller for uploading a resume
 // POST: /api/ai/upload-resume
+
 export const uploadResume = async (req, res) => {
   try {
     const { resumeText, title } = req.body;

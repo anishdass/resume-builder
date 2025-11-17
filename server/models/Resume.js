@@ -9,6 +9,7 @@ const ResumeSchema = new mongoose.Schema(
     accent_color: { type: String, default: "#3b82f6" },
     professional_summary: { type: String, default: "" },
     skills: [{ type: String }],
+
     personal_info: {
       image: { type: String, default: "" },
       full_name: { type: String, default: "" },
@@ -19,6 +20,7 @@ const ResumeSchema = new mongoose.Schema(
       linkedin: { type: String, default: "" },
       website: { type: String, default: "" },
     },
+
     experience: [
       {
         company: { type: String },
@@ -26,8 +28,10 @@ const ResumeSchema = new mongoose.Schema(
         start_date: { type: String },
         end_date: { type: String },
         is_current: { type: Boolean },
+        description: { type: String },
       },
     ],
+
     project: [
       {
         name: { type: String },
@@ -35,6 +39,7 @@ const ResumeSchema = new mongoose.Schema(
         description: { type: String },
       },
     ],
+
     education: [
       {
         institution: { type: String },

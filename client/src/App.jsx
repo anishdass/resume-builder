@@ -6,16 +6,17 @@ import Dashboard from "./pages/Dashboard";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
 import Test from "./pages/Test";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { api } from "./configs/api";
 import { login, setLoading } from "./app/features/authSlice";
 import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
 
   const getUserData = async () => {
-    const token = localStorage.getItem("token");
+    console.log(token);
 
     try {
       if (token) {

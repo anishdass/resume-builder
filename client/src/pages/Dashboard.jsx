@@ -17,7 +17,6 @@ import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const { user, token } = useSelector((state) => state.auth);
-  // console.log(token);
 
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
   const [allResumes, setAllResumes] = useState([]);

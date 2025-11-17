@@ -85,7 +85,7 @@ export const loginUser = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     // Get email and password from the body
-    const { userId } = req.userId;
+    const userId = req.userId;
 
     // Check if user exists
     const user = await User.findById(userId);

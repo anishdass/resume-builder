@@ -2,8 +2,12 @@ import { Briefcase, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { api } from "../configs/api";
+import toast from "react-hot-toast";
 
 const ExperienceForm = ({ data, onChange }) => {
+  const [generatingIndex, setGeneratingIndex] = useState(-1);
+  const { token } = useSelector((state) => state.auth);
+
   const addExperience = () => {
     const newExperience = {
       company: "",
@@ -23,32 +27,39 @@ const ExperienceForm = ({ data, onChange }) => {
 
   const updateExperience = (index, field, value) => {
     const updatedExperience = [...data];
-    updatedExperience[index] = { ...updateExperience[index], [field]: value };
+    updatedExperience[index] = { ...updatedExperience[index], [field]: value };
+
     onChange(updatedExperience);
   };
 
-  const { token } = useSelector((state) => state.auth);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const enhanceJobDescription = async (index) => {
+    setGeneratingIndex(index);
+    const experience = data[index];
+    const prompt = `Enhance the job description of the experience ${experience.description} for the position of ${experience.position} at ${experience.company}`;
 
-  const enhanceJobDescription = async (data) => {
-    console.log(data);
+    try {
+      const { data } = await api.post(
+        "/api/ai/enhance-job-desc",
+        {
+          userContent: prompt,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
 
-    // const prompt = `Enhance my job description ${data}`;
-    // try {
-    //   setIsGenerating(true);
+      const enhancedText = data.enhancedContent.content;
 
-    //   const { data } = await api.post(
-    //     "/api/ai/enhance-job-desc",
-    //     { userContent: prompt },
-    //     { headers: { Authorization: token } }
-    //   );
-
-    //   console.log(data);
-    // } catch (error) {
-    //   console.log(error?.response?.data?.message || error.message);
-    // } finally {
-    //   setIsGenerating(false);
-    // }
+      updateExperience(index, "description", enhancedText);
+    } catch (error) {
+      toast.error(
+        `OpenAI’s API was temporarily unavailable - Please try again later`
+      );
+    } finally {
+      setGeneratingIndex(-1);
+    }
   };
 
   return (
@@ -128,6 +139,7 @@ const ExperienceForm = ({ data, onChange }) => {
                   }
                 />
               </div>
+
               <label className=' flex items-center gap-2'>
                 <input
                   type='checkbox'
@@ -141,10 +153,12 @@ const ExperienceForm = ({ data, onChange }) => {
                     )
                   }
                 />
+
                 <span className=' text-sm text-gray-700'>
                   Currently working here
                 </span>
               </label>
+
               <div className=' space-y-2'>
                 <div className=' flex items-center justify-between'>
                   <label
@@ -153,19 +167,26 @@ const ExperienceForm = ({ data, onChange }) => {
                     Job Description
                   </label>
                   <button
-                    disabled={isGenerating}
-                    onClick={(e) => enhanceJobDescription(e.target.value)}
+                    disabled={
+                      generatingIndex === index ||
+                      !experience.position ||
+                      !experience.company
+                    }
+                    onClick={() => enhanceJobDescription(index)}
                     className=' flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
-                    {isGenerating ? (
+                    {generatingIndex === index ? (
                       <Loader2 className=' size-4 animate-spin' />
                     ) : (
                       <Sparkles className=' w-3 h-3' />
                     )}
-                    {isGenerating ? "Generating..." : "Enhance with AI"}
+                    {generatingIndex === index
+                      ? "Generating..."
+                      : "Enhance with AI"}
                   </button>
                 </div>
                 <textarea
                   value={experience.description || ""}
+                  rows={5}
                   onChange={(e) =>
                     updateExperience(index, "description", e.target.value)
                   }
