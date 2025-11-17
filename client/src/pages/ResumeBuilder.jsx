@@ -82,14 +82,12 @@ const ResumeBuilder = () => {
         "resumeData",
         JSON.stringify({ public: !resumeData.public })
       );
-      const { data } = await api.put(
-        `/api/resumes/update`,
-        { formData },
-        {
-          headers: { Authorization: token },
-        }
-      );
-      setResumeData({ ...resumeData, public: !resumeData.public });
+
+      const { data } = await api.put("/api/resumes/update", formData, {
+        headers: { Authorization: token },
+      });
+
+      setResumeData((prev) => ({ ...prev, public: !prev.public }));
       toast.success(data.message);
     } catch (error) {
       console.error("Error saving resume: ", error);
