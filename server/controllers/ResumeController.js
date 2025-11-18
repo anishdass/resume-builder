@@ -126,7 +126,8 @@ export const getResumeById = async (req, res) => {
 // GET: /api/resume/public
 export const getPublicResumeById = async (req, res) => {
   try {
-    const resumeId = req.params;
+    const { resumeId } = req.params;
+
     const resume = await Resume.findOne({ _id: resumeId, public: true });
 
     if (!resume) {
