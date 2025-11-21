@@ -66,7 +66,6 @@ const ResumeBuilder = () => {
       const { data } = await api.get(`/api/resumes/get/${resumeId}`, {
         headers: { Authorization: token },
       });
-
       setResumeData(data.resume);
       document.title = data.resume.title;
     } catch (error) {
@@ -175,6 +174,7 @@ const ResumeBuilder = () => {
                     setResumeData((prev) => ({ ...prev, template }))
                   }
                 />
+
                 <ColorPicker
                   selectedColor={resumeData.accent_color}
                   onChange={(color) =>

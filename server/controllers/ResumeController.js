@@ -1,6 +1,7 @@
 import client from "../configs/imageKit.js";
 import Resume from "../models/Resume.js";
-import fs from "fs";
+import FormData from "form-data";
+import axios from "axios";
 
 // Controller for creating a new resume
 // POST: /api/resumes/create
@@ -9,7 +10,6 @@ export const createResume = async (req, res) => {
     // Get user id from the request, and title from body
     const userId = req.userId;
     const { title } = req.body;
-    console.log(req.body);
 
     // Create new Resume
     const newResume = await Resume.create({ userId, title });
@@ -39,25 +39,85 @@ export const updateResume = async (req, res) => {
       resumeDataCopy = structuredClone(resumeData);
     }
 
+    // if (image) {
+    //   const response = await client.files.upload({
+    //     file: fs.createReadStream(image.path),
+    //     fileName: "resume.png",
+    //     folder: "user-resumes",
+    //   });
+
+    //   const transformedUrl = client.helper.buildSrc({
+    //     src: response.url,
+    //     transformation: [
+    //       {
+    //         width: 300,
+    //         height: 300,
+    //         focus: "face",
+    //         zoom: 0.75,
+    //       },
+    //     ],
+    //   });
+
+    //   resumeDataCopy.personal_info.image = transformedUrl;
+    // }
+
     if (image) {
-      const response = await client.files.upload({
-        file: fs.createReadStream(image.path),
-        fileName: "resume.png",
-        folder: "user-resumes",
+      // Read the image buffer
+      const imageBuffer = image.buffer;
+
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("image_file", imageBuffer, {
+        filename: image.originalname,
+        contentType: image.mimetype,
+      });
+      formData.append("size", "auto");
+
+      // Send request to remove.bg API
+      const removeBgResponse = await axios.post(
+        "https://api.remove.bg/v1.0/removebg",
+        formData,
+        {
+          headers: {
+            ...formData.getHeaders(),
+            "X-Api-Key": process.env.REMOVE_BG_API_KEY,
+          },
+          responseType: "arraybuffer", // important to get the binary data
+        }
+      );
+
+      // You could store the returned image somewhere (ex: cloud storage)
+      // For demo, let's convert buffer to base64 string and send a data URL
+      const base64Image = Buffer.from(removeBgResponse.data, "binary").toString(
+        "base64"
+      );
+      const mimeType = removeBgResponse.headers["content-type"];
+      let url = `data:${mimeType};base64,${base64Image}`;
+
+      // Upload the base64 data URL to ImageKit and apply the transformation
+      // First, upload the image from the data URL to ImageKit
+      const uploadResponse = await client.files.upload({
+        file: url, // url is a data url
+        fileName: image.originalname || "image-removed-bg.png",
+        useUniqueFileName: true,
+        folder: "user-images-bgremoved",
       });
 
+      // Transform the uploaded image as in updateResume controller
       const transformedUrl = client.helper.buildSrc({
-        src: response.url,
+        src: uploadResponse.url,
         transformation: [
           {
             width: 300,
             height: 300,
             focus: "face",
             zoom: 0.75,
-            effect: removeBackground ? "bgremove" : "",
+            effect: "bgremove",
           },
         ],
       });
+
+      // Overwrite url with the transformed version, so the response will send it
 
       resumeDataCopy.personal_info.image = transformedUrl;
     }

@@ -25,7 +25,7 @@ function Hero() {
             <img
               src='/logo.svg'
               alt='logo'
-              className=' h-11 w-auto cursor-pointer'
+              className=' h-12 w-auto cursor-pointer'
             />
           </a>
 
