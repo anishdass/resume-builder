@@ -10,27 +10,33 @@ import imageRouter from "./routes/imageRoutes.js";
 const app = express();
 const port = process.env.PORT || 3000;
 
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Allow non-browser requests (like Postman)
+
+    const allowedExactOrigins = [
+      "http://localhost:5173",
+      "https://resume-builder-flame-ten.vercel.app",
+    ];
+
+    const isAllowed =
+      allowedExactOrigins.includes(origin) || origin.endsWith(".vercel.app");
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 // Database connection
 await connectDB();
 
 app.use(express.json());
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://resume-builder-gmdw1a7qk-anishs-projects-3348972e.vercel.app/",
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
 
 app.get("/", (req, res) => res.send("Server is Live"));
 app.use("/api/users", userRouter);
