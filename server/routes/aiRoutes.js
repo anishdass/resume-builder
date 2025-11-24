@@ -3,7 +3,7 @@ import {
   enhanceJobDesc,
   enhanceProSummary,
   uploadResume,
-} from "../controllers/AiController.js";
+} from "../controllers/aiController.js";
 import protect from "../middlewares/authMiddleware.js";
 
 const aiRouter = express.Router();
