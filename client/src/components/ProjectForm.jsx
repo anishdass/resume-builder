@@ -65,22 +65,23 @@ const ProjectForm = ({ data, onChange }) => {
                 value={project.name || ""}
                 onChange={(e) => updateProject(index, "name", e.target.value)}
               />
+
               <input
                 type='text'
                 placeholder='Description'
                 className=' px-3 py-2 text-sm rounded-lg'
-                value={project.description || ""}
-                onChange={(e) =>
-                  updateProject(index, "description", e.target.value)
-                }
+                value={project.type || ""}
+                onChange={(e) => updateProject(index, "type", e.target.value)}
               />
               <textarea
                 rows={4}
                 type='text'
                 placeholder='Type'
                 className=' px-3 py-2 text-sm rounded-lg resize-none'
-                value={project.type || ""}
-                onChange={(e) => updateProject(index, "type", e.target.value)}
+                value={project.description || ""}
+                onChange={(e) =>
+                  updateProject(index, "description", e.target.value)
+                }
               />
             </div>
           </div>
