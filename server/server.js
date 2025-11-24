@@ -15,21 +15,22 @@ await connectDB();
 
 app.use(express.json());
 
+const allowedOrigins = ["http://localhost:5173"];
 const vercelPattern = /^https:\/\/resume-builder-.+\.vercel\.app$/;
-// https://resume-builder-7r4c2dcvr-anishs-projects-3348972e.vercel.app/
 
 app.use(
   cors({
     origin: (origin, callback) => {
       if (
         !origin ||
-        origin === "http://localhost:5173" ||
+        allowedOrigins.includes(origin) ||
         vercelPattern.test(origin)
       ) {
         return callback(null, true);
       }
-      return callback(new Error("Not allowed by CORS"));
+      return callback(new Error(`CORS blocked for origin ${origin}`));
     },
+    credentials: true,
   })
 );
 
