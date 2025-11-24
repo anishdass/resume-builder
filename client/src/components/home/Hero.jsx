@@ -36,9 +36,9 @@ function Hero() {
             <a href='#features' className='hover:text-green-600 transition'>
               Features
             </a>
-            <a href='#testimonials' className='hover:text-green-600 transition'>
+            {/* <a href='#testimonials' className='hover:text-green-600 transition'>
               Testimonials
-            </a>
+            </a> */}
             <a href='#cta' className='hover:text-green-600 transition'>
               Contact
             </a>
@@ -106,11 +106,11 @@ function Hero() {
         </div>
 
         {/* Hero Section */}
-        <div className='relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black'>
+        <div className=' mt-25 relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black'>
           <div className='absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-green-300 blur-[100px] opacity-30'></div>
 
           {/* Avatars + Stars */}
-          <div className='flex items-center mt-24'>
+          {/* <div className='flex items-center mt-24'>
             <div className='flex -space-x-3 pr-3'>
               <img
                 src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200'
@@ -163,10 +163,10 @@ function Hero() {
               </div>
               <p className='text-sm text-gray-700'>Used by 10,000+ users</p>
             </div>
-          </div>
+          </div> */}
 
           {/* Headline + CTA */}
-          <h1 className='text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]'>
+          <h1 className=' mt-10 text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]'>
             Land your dream job with
             <span className=' bg-gradient-to-r from-green-700 to-green-600 bg-clip-text text-transparent text-nowrap'>
               AI powered
@@ -221,7 +221,7 @@ function Hero() {
             </button>
           </div>
 
-          <p className='py-6 text-slate-600 mt-14'>
+          {/* <p className='py-6 text-slate-600 mt-14'>
             Trusted by leading brands, including
           </p>
 
@@ -236,7 +236,7 @@ function Hero() {
                 className='h-6 w-auto max-w-xs'
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
       <style>
