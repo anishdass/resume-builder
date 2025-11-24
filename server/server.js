@@ -15,7 +15,8 @@ await connectDB();
 
 app.use(express.json());
 
-const vercelPattern = /^https:\/\/resume-builder-.*\.vercel\.app$/;
+const vercelPattern = /^https:\/\/resume-builder-.+\.vercel\.app$/;
+// https://resume-builder-7r4c2dcvr-anishs-projects-3348972e.vercel.app/
 
 app.use(
   cors({
