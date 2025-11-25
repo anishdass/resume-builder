@@ -16,8 +16,6 @@ const App = () => {
   const { token } = useSelector((state) => state.auth);
 
   const getUserData = async () => {
-    console.log(token);
-
     try {
       if (token) {
         const { data } = await api.get("/api/users/data", {

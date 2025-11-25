@@ -10,7 +10,6 @@ const EducationForm = ({ data, onChange }) => {
       graduation_date: "",
       gpa: "",
     };
-    console.log([...data, newEducation]);
     onChange([...data, newEducation]);
   };
 

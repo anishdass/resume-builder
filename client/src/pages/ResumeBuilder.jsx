@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeftIcon,
   Briefcase,
@@ -31,6 +31,7 @@ import toast from "react-hot-toast";
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
   const { token } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [removeBackground, setRemoveBackground] = useState(false);
@@ -106,6 +107,10 @@ const ResumeBuilder = () => {
 
   const downloadResume = () => {
     window.print();
+  };
+
+  const viewResume = (resumeId) => {
+    navigate(`/view/${resumeId}`);
   };
 
   const saveResume = async () => {
@@ -337,6 +342,14 @@ const ResumeBuilder = () => {
                   onClick={downloadResume}
                   className=' flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-br from-purple-100 to-purple-200 text-purple-600 ring-purple-300 rounded-lg hover:ring transition-colors'>
                   <Download className=' size-4' /> Download
+                </button>
+
+                {/* View Resume button */}
+                <button
+                  onClick={() => viewResume(resumeData._id)}
+                  className=' flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-br from-purple-100 to-purple-200 text-purple-600 ring-purple-300 rounded-lg hover:ring transition-colors'>
+                  <FileText className=' size-4' />
+                  View
                 </button>
               </div>
             </div>

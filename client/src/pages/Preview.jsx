@@ -26,8 +26,6 @@ const Preview = () => {
     loadResume();
   }, []);
 
-  console.log(resumeData);
-
   return resumeData ? (
     <div className=' bg-slate-100'>
       <div className=' max-w-3xl mx-auto py-10'>
